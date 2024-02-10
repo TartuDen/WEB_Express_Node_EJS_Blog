@@ -7,8 +7,8 @@
       <li class="nav-item"><a href="about" class="nav-link link-body-emphasis px-2">About</a></li>
     </ul>
     <ul class="nav">
-      <% if (locals.data){%>
-        <li class="nav-item nav-link link-body-emphasis px-2">Welcome: <strong><%= data.uName %></strong>
+      <% if (locals.userData){%>
+        <li class="nav-item nav-link link-body-emphasis px-2">Welcome: <strong><%= userData["uName"] %></strong>
         </li>
         <% }else{%>
           <!-- <li class="nav-item"><a href="/login" class="nav-link link-body-emphasis px-2">Login</a></li> -->
