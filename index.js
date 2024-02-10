@@ -101,6 +101,43 @@ app.get("/about", (req, res) => {
     res.status(200).render("about.ejs", { userData })
 })
 
+app.get("/create", (req, res) => {
+    if (uName !== "") {
+        userData = {
+            "uName": uName,
+            "uEmail": uEmail,
+            "uPass": uPass
+        }
+    }
+    res.status(200).render("create.ejs", { userData })
+})
+
+app.post("/create", (req, res) => {
+    if (uName !== "") {
+        userData = {
+            "uName": uName,
+            "uEmail": uEmail,
+            "uPass": uPass
+        }
+    }
+    let k = Object.keys(data)
+    let idx = k.length
+    const newBlogEntry = {
+        "game": req.body["game"],
+        "topic": req.body["topic"],
+        "content": req.body["content"],
+        "created": {
+            "uName": uName,
+            "uEmail": uEmail,
+            "date": req.body["date"],
+        }
+    };
+    
+    // Add the new blog entry to the existing data object
+    data["blogTempl"+idx+1] = newBlogEntry;
+    res.status(200).redirect("/")
+})
+
 app.get("/fqs", (req, res) => {
     if (uName !== "") {
         userData = {
@@ -122,7 +159,6 @@ app.post("/", (req, res) => {
         "uPass": uPass
     }
     res.status(200).render("index.ejs", { data, userData })
-
 })
 
 app.listen(port, (err) => {
