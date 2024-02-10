@@ -33,23 +33,7 @@
 
                 <!-- Main Content Area -->
                 <div class="col-lg-7 col-md-12 col-sm-12">
-                    <% if (locals.data) { %>
-                        <% for (const key in data) { %>
-                            <% if (data.hasOwnProperty(key)) { %>
-                                <% const blog=data[key]; %>
-                                    <h2>
-                                        <%= blog.topic %>
-                                    </h2>
-                                    <p>
-                                        <%= blog.content %>
-                                    </p>
-                                    <h6>
-                                        <%= blog.created.uName %>
-                                        <strong>(<%= blog.created.uEmail  %>)</strong>
-                                    </h6>
-                                    <% } %>
-                                        <% } %>
-                                            <% } %>
+                   <%- include("partial/standardContent.ejs")  %>
                 </div>
             </div>
         </div>
