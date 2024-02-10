@@ -24,16 +24,32 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar -->
-                <aside class="col-lg-3 col-md-2 col-sm-12 bg-light border-end">
-                    <%-include("partial/sidebar.ejs") %>
+                <aside class="col-lg-3 col-md-12 col-sm-12 bg-light border-end">
+                    <%- include("partial/sidebar.ejs") %>
                 </aside>
-                <div class="col-lg-1">
+                <div class="col-lg-1 col-md-0 col-sm-0">
 
                 </div>
-                
+
                 <!-- Main Content Area -->
-                <div class="col-lg-7 col-md-6 col-sm-12">
-                    <%-include("partial/standardContent.ejs") %>
+                <div class="col-lg-7 col-md-12 col-sm-12">
+                    <% if (locals.data) { %>
+                        <% for (const key in data) { %>
+                            <% if (data.hasOwnProperty(key)) { %>
+                                <% const blog=data[key]; %>
+                                    <h2>
+                                        <%= blog.topic %>
+                                    </h2>
+                                    <p>
+                                        <%= blog.content %>
+                                    </p>
+                                    <h6>
+                                        <%= blog.created.uName %>
+                                        <strong>(<%= blog.created.uEmail  %>)</strong>
+                                    </h6>
+                                    <% } %>
+                                        <% } %>
+                                            <% } %>
                 </div>
             </div>
         </div>
@@ -42,7 +58,7 @@
     <!-- Footer -->
     <footer class="bg-prime text-white">
         <div class="container-fluid">
-            <%-include("partial/footer.ejs") %>
+            <%- include("partial/footer.ejs") %>
         </div>
     </footer>
 
