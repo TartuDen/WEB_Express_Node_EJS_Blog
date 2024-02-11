@@ -18,7 +18,12 @@
                         <strong>(<%= blog.created.uEmail %>)</strong>
                         <em><%= blog.created.date  %></em>
                 </h6>
+                <% if (userData["uName"]===blog.created.uName){ %>
+                    <button type="button" class="btn btn-primary">Edit</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                    <% } %>
         <% } %>
+
                     <hr>
     <% } %>
 
