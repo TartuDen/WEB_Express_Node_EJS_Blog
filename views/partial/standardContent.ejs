@@ -9,7 +9,6 @@
                 <h2 id="<%= key %>">
                     <%= blog.topic %>
                 </h2>
-
                 <p>
                     <%= blog.content %>
                 </p>
@@ -22,18 +21,23 @@
                 </h6>
                 <% if (locals.userData) { %>
                     <% if (userData["uName"]===blog.created.uName){ %>
-                        <button type="button" class="btn btn-primary">Edit</button>
-
-                        <form action="/delete" method="post">
-                            <input type="hidden" name="blogIDToDelete" value="<%= key %>">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>                        
+                        <div class="row">
+                            <div class="col-lg-1">
+                                <form action="/edit" method="post">
+                                    <input type="hidden" name="blogToEdit" value="<%= key %>">
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </form>
+                            </div>
+                            <div class="col-lg-1">
+                                <form action="/delete" method="post">
+                                    <input type="hidden" name="blogIDToDelete" value="<%= key %>">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
                         <% } %>
                             <% } %>
-
                                 <% } %>
-
                                     <hr>
                                     <% } %>
-
                                         <% } %>

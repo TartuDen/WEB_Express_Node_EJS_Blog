@@ -132,9 +132,9 @@ app.post("/create", (req, res) => {
             "date": req.body["date"],
         }
     };
-    
+
     // Add the new blog entry to the existing data object
-    data["blogTempl"+idx+1] = newBlogEntry;
+    data["blogTempl" + idx + 1] = newBlogEntry;
     res.status(200).redirect("/")
 })
 
@@ -151,8 +151,8 @@ app.get("/fqs", (req, res) => {
 
 app.post("/", (req, res) => {
     uName = req.body["name"],
-    uEmail = req.body["email"],
-    uPass = req.body["pass"]
+        uEmail = req.body["email"],
+        uPass = req.body["pass"]
     userData = {
         "uName": uName,
         "uEmail": uEmail,
@@ -161,7 +161,32 @@ app.post("/", (req, res) => {
     res.status(200).render("index.ejs", { data, userData })
 })
 
-app.post("/delete",(req,res)=>{
+app.post("/edit_finalize", (req, res) => {
+    let blogToEdit = req.body["blogToEdit"];
+    const newBlogEntry = {
+        "game": req.body["game"],
+        "topic": req.body["topic"],
+        "content": req.body["content"],
+        "created": {
+            "uName": uName,
+            "uEmail": uEmail,
+            "date": req.body["date"],
+        }
+    };
+    data[blogToEdit] = newBlogEntry;
+    res.status(200).redirect("/")
+})
+
+app.post("/edit", (req, res) => {
+    let blogToEdit = req.body["blogToEdit"];
+    res.status(200).render("edit.ejs", {
+        userData,
+        blogName: blogToEdit,
+        blog: data[blogToEdit]
+    })
+})
+
+app.post("/delete", (req, res) => {
     let blogIDToDelete = req.body["blogIDToDelete"];
     delete data[blogIDToDelete]
     res.status(200).redirect("/")
