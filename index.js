@@ -161,6 +161,12 @@ app.post("/", (req, res) => {
     res.status(200).render("index.ejs", { data, userData })
 })
 
+app.post("/delete",(req,res)=>{
+    let blogIDToDelete = req.body["blogIDToDelete"];
+    delete data[blogIDToDelete]
+    res.status(200).redirect("/")
+})
+
 app.listen(port, (err) => {
     if (err) throw err;
     console.log(`server is running on port ${port}`);

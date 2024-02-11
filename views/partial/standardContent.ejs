@@ -6,25 +6,34 @@
                 <p style="margin: 0; padding: 0;">🎮<strong><em>
                             <%= blog.game %>
                         </em></strong></p>
-                        <h2 id="<%= key %>">
-                            <%= blog.topic %>
-                        </h2>
-                        
+                <h2 id="<%= key %>">
+                    <%= blog.topic %>
+                </h2>
+
                 <p>
                     <%= blog.content %>
                 </p>
                 <h6>
                     <%= blog.created.uName %>
                         <strong>(<%= blog.created.uEmail %>)</strong>
-                        <em><%= blog.created.date  %></em>
+                        <em>
+                            <%= blog.created.date %>
+                        </em>
                 </h6>
-                <% if (userData["uName"]===blog.created.uName){ %>
-                    <button type="button" class="btn btn-primary">Edit</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                    <% } %>
-        <% } %>
+                <% if (locals.userData) { %>
+                    <% if (userData["uName"]===blog.created.uName){ %>
+                        <button type="button" class="btn btn-primary">Edit</button>
 
-                    <hr>
-    <% } %>
+                        <form action="/delete" method="post">
+                            <input type="hidden" name="blogIDToDelete" value="<%= key %>">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>                        
+                        <% } %>
+                            <% } %>
 
-<% } %>
+                                <% } %>
+
+                                    <hr>
+                                    <% } %>
+
+                                        <% } %>
