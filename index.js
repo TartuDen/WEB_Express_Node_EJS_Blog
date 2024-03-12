@@ -4,6 +4,7 @@ import { Url } from 'url';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import axios from 'axios';
+import { copyFileSync } from 'fs';
 
 const port = 8080;
 const app = express();
@@ -27,10 +28,9 @@ app.get("/", async (req, res) => {
         }
     }
     try{
-        let apiResp = await axios(apiUrl);
-        apiResp = apiResp.data
-        let data = apiResp
-        console.log(data);
+        let apiResp = await axios.get(apiUrl);
+        let data = apiResp.data
+
         res.status(200).render("index.ejs", { data, userData })
 
 
@@ -80,25 +80,32 @@ app.post("/create", async (req, res) => {
             "uPass": uPass
         }
     }
-    const newBlogEntry = {
-        "game": req.body["game"],
-        "topic": req.body["topic"],
-        "content": req.body["content"],
-        "created": {
-            "uName": uName,
-            "uEmail": uEmail,
-            "date": req.body["date"],
+    let newBlogEntry = {
+        game: req.body["game"],
+        topic: req.body["topic"],
+        content: req.body["content"],
+        created: {
+            uName: uName,
+            uEmail: uEmail,
+            date: req.body["date"],
         }
     };
-    try{
-        let apiResp = await axios.post(apiUrl+"/create",newBlogEntry);
-        console.log(apiResp.data);
-    }catch(error){
+
+  
+
+    try {
+        console.log("req.body")
+        console.log(req.body)
+        console.log("***********************")
+
+        let apiResp = await axios.post(apiUrl + "/create", req.body);
+    } catch (error) {
         console.error(error);
     }
 
-    res.status(200).redirect("/")
-})
+    res.status(200).redirect("/");
+});
+
 
 app.get("/fqs", (req, res) => {
     if (uName !== "") {
@@ -124,7 +131,6 @@ app.post("/", async (req, res) => {
         let apiResp = await axios(apiUrl);
         apiResp = apiResp.data
         let data = apiResp
-        console.log(data)
         res.status(200).render("index.ejs", { data, userData })
 
 
