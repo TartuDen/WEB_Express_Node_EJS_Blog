@@ -66,26 +66,36 @@ let data = {
 const port = 3000;
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-    res.status(200).json(data)
+    if (data){
+        res.status(200).json(data);
+    }else{
+        res.status(404);
+    }
+    
 })
 
 app.post("/create", (req, res) => {
-    // Access the data sent from the Axios request
     const newBlogEntry = req.body;
-    // Generate a unique key for the new entry
     const newKey = `blogTempl${Object.keys(data).length + 1}`;
-
-    // Add the new entry to the data object
     data[newKey] = newBlogEntry;
-
-    const responseData = { message: "New Blog posted successfully" };
-
-    res.status(200).json(responseData);
+    const responseData = { message: "New Blog has been successfully created" };
+    res.status(201).json(responseData);
 });
+
+app.get("/:blogName",(req,res)=>{
+    const blogToEdit = req.params.blogName
+    res.status(200).json(data[blogToEdit]);
+})
+
+app.put("/edit",(req,res)=>{
+    const {blogToEdit, newBlogEntry} = req.body;
+    data[blogToEdit]=newBlogEntry;
+    res.status(200).json({message: "Post has been successfully updated"})
+})
 
 
 

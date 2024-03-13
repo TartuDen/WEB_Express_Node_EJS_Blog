@@ -90,15 +90,12 @@ app.post("/create", async (req, res) => {
             date: req.body["date"],
         }
     };
-
-  
-
     try {
         let apiResp = await axios.post(apiUrl + "/create", newBlogEntry);
+        console.log(apiResp);
     } catch (error) {
         console.error(error);
     }
-
     res.status(200).redirect("/");
 });
 
@@ -128,15 +125,29 @@ app.post("/", async (req, res) => {
         apiResp = apiResp.data
         let data = apiResp
         res.status(200).render("index.ejs", { data, userData })
-
-
     }catch(error){
         console.error(error)
     }
 })
 
-app.post("/edit_finalize", (req, res) => {
-    let blogToEdit = req.body["blogToEdit"];
+app.post("/edit", async (req, res) => {
+    const blogToEdit = req.body["blogToEdit"];
+    try{
+        const apiResp = await axios.get(apiUrl+"/"+blogToEdit);
+        res.status(200).render("edit.ejs", {
+            userData,
+            blogName: blogToEdit,
+            blog: apiResp.data
+        })
+    }catch(error){
+        console.log(error)
+    }
+
+    
+})
+
+app.post("/edit_finalize", async (req, res) => {
+    const blogToEdit = req.body["blogToEdit"];
     const newBlogEntry = {
         "game": req.body["game"],
         "topic": req.body["topic"],
@@ -147,18 +158,15 @@ app.post("/edit_finalize", (req, res) => {
             "date": req.body["date"],
         }
     };
-    data[blogToEdit] = newBlogEntry;
+    try{
+        const apiResp = await axios.put(apiUrl+"/edit", {blogToEdit, newBlogEntry});
+    }catch(error){
+        console.error(error)
+    }
     res.status(200).redirect("/")
 })
 
-app.post("/edit", (req, res) => {
-    let blogToEdit = req.body["blogToEdit"];
-    res.status(200).render("edit.ejs", {
-        userData,
-        blogName: blogToEdit,
-        blog: data[blogToEdit]
-    })
-})
+
 
 app.post("/delete", (req, res) => {
     let blogIDToDelete = req.body["blogIDToDelete"];
