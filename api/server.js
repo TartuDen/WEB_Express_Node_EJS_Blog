@@ -70,37 +70,57 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-    if (data){
+    if (data) {
         res.status(200).json(data);
-    }else{
-        res.status(404);
+    } else {
+        res.status(404).json({error: "The requested resource does not exist."})
     }
-    
+
 })
 
 app.post("/create", (req, res) => {
     const newBlogEntry = req.body;
     const newKey = `blogTempl${Object.keys(data).length + 1}`;
     data[newKey] = newBlogEntry;
-    const responseData = { message: "New Blog has been successfully created" };
-    res.status(201).json(responseData);
+    res.status(201).json({ message: "New Blog has been successfully created" });
 });
 
-app.get("/:blogName",(req,res)=>{
-    const blogToEdit = req.params.blogName
-    res.status(200).json(data[blogToEdit]);
+app.get("/:blogName", (req, res) => {
+    const blogToEdit = req.params.blogName;
+    if(data[blogToEdit]){
+        res.status(200).json(data[blogToEdit]);
+    }else{
+        res.status(404).json({error: "The requested resource does not exist."});
+    }
+    
 })
 
-app.put("/edit",(req,res)=>{
-    const {blogToEdit, newBlogEntry} = req.body;
-    data[blogToEdit]=newBlogEntry;
-    res.status(200).json({message: "Post has been successfully updated"})
+app.put("/edit", (req, res) => {
+    const { blogToEdit, newBlogEntry } = req.body;
+    if (data[blogToEdit]) {
+        data[blogToEdit] = newBlogEntry;
+        res.status(200).json({ message: "Post has been successfully updated" });
+    }else{
+        res.status(404).json({error: "The server cannot find the requested resource to update."});
+    }
+
+})
+
+app.delete("/:blogID", (req, res) => {
+    const blogToDeleteID = req.params.blogID;
+    if (data[blogToDeleteID]) {
+        delete data[blogToDeleteID];
+        res.status(200).json({ message: "Post has been successfully deleted." });
+    } else {
+        res.status(404).json({error: "The server cannot find the requested resource to delete."});
+    }
+
 })
 
 
 
 app.listen(port, (err) => {
     if (err) throw err;
-    console.log("API server is running on port: " + port)
+    console.log("API server is running on port: " + port);
 })
 

@@ -92,7 +92,6 @@ app.post("/create", async (req, res) => {
     };
     try {
         let apiResp = await axios.post(apiUrl + "/create", newBlogEntry);
-        console.log(apiResp);
     } catch (error) {
         console.error(error);
     }
@@ -168,9 +167,14 @@ app.post("/edit_finalize", async (req, res) => {
 
 
 
-app.post("/delete", (req, res) => {
+app.post("/delete", async (req, res) => {
     let blogIDToDelete = req.body["blogIDToDelete"];
-    delete data[blogIDToDelete]
+    try{
+        const apiResp = await axios.delete(apiUrl+"/"+blogIDToDelete);
+    }catch(error){
+        console.log(error)
+    }
+    
     res.status(200).redirect("/")
 })
 
