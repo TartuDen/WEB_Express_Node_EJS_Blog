@@ -67,6 +67,7 @@ const port = 3000;
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
     res.status(200).json(data)
@@ -74,19 +75,15 @@ app.get("/", (req, res) => {
 
 app.post("/create", (req, res) => {
     // Access the data sent from the Axios request
-    const requestData = req.body;
+    const newBlogEntry = req.body;
+    // Generate a unique key for the new entry
+    const newKey = `blogTempl${Object.keys(data).length + 1}`;
 
-    // Assuming you want to process the data in some way
-    // For example, you might want to log the received data
-    console.log("Received data:");
-    console.log(requestData);
-    console.log("***********************");
+    // Add the new entry to the data object
+    data[newKey] = newBlogEntry;
 
-    // Assuming you want to send back a response to the client
-    // You can send back any data you want, for now, let's just send a simple response
-    const responseData = { message: "Data received successfully" };
+    const responseData = { message: "New Blog posted successfully" };
 
-    // Assuming you want to send a response back to the client
     res.status(200).json(responseData);
 });
 

@@ -94,11 +94,7 @@ app.post("/create", async (req, res) => {
   
 
     try {
-        console.log("req.body")
-        console.log(req.body)
-        console.log("***********************")
-
-        let apiResp = await axios.post(apiUrl + "/create", req.body);
+        let apiResp = await axios.post(apiUrl + "/create", newBlogEntry);
     } catch (error) {
         console.error(error);
     }
